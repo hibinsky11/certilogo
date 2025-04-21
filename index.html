@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Проверка подлинности | ВашБренд</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<!-- Правильно (если style.css в той же папке) -->
+  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=1.1">
+<body>
+  <header>
+    <div class="logo">сеrtilogo</div>
+  </header>
+  <main>
+    <section class="verification-block">
+      <h1>Проверьте подлинность вашего товара</h1>
+      <p>Введите код с бирки или отсканируйте QR-код:</p>
+      
+      <form id="auth-check-form">
+        <input type="text" placeholder="Например: CLG-123456" required>
+        <button type="submit">Проверить</button>
+      </form>
+      
+      <div class="qr-scan-option">
+        <img src="images/u_64483dc802654d8ac2cc30a9965c0160_800.png" alt="QR-сканер" width="30">
+        <a href="#" id="open-qr-scanner">Открыть сканер QR-кода</a>
+      </div>
+    </section>
+
+    <section class="result-block hidden" id="result-block">
+      <h2>Результат проверки</h2>
+      <div class="result-content">
+        <p id="result-text"></p>
+        <button id="new-check">Сделать новую проверку</button>
+      </div>
+    </section>
+
+    <section class="comparison-guide">
+      <h2>Как отличить оригинал от подделки?</h2>
+      <div class="comparison-images">
+        <div>
+          <h3>Оригинал</h3>
+          <img src="images/original.jpg" alt="Оригинальный товар">
+        </div>
+        <div>
+          <h3>Подделка</h3>
+          <img src="images/scale_1200.jpg" alt="Поддельный товар">
+        </div>
+      </div>
+    </section>
+  </main>
+
+ <!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сканер QR-кодов</title>
+  <style>
+    #scanner-container {
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+      position: relative;
+    }
+    #scanner-video {
+      width: 100%;
+      border: 2px solid #333;
+      border-radius: 8px;
+    }
+    #scan-result {
+      margin-top: 20px;
+      padding: 10px;
+      background: #f0f0f0;
+      border-radius: 5px;
+    }
+    .scanner-controls {
+      margin: 20px 0;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      background: #4285f4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="scanner-container">
+    <video id="scanner-video" playsinline></video>
+    <div class="scanner-controls">
+      <button id="start-scanner">Запустить сканер</button>
+      <button id="stop-scanner" disabled>Остановить</button>
+    </div>
+    <div id="scan-result">Здесь появится результат сканирования...</div>
+  </div>
+
+  <!-- Подключаем библиотеку Instascan -->
+  <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+  <script>
+    // Код JavaScript будет здесь
+    document.addEventListener('DOMContentLoaded', function() {
+      const scanner = new Instascan.Scanner({ video: document.getElementById('scanner-video') });
+      const startBtn = document.getElementById('start-scanner');
+      const stopBtn = document.getElementById('stop-scanner');
+      const resultDiv = document.getElementById('scan-result');
+
+      // Обработка отсканированного кода
+      scanner.addListener('scan', function(content) {
+        resultDiv.textContent = Найден QR-код: ${content};
+        // Можно добавить автоматическую проверку кода
+        if(content.startsWith("CLG-")) {
+          resultDiv.innerHTML += "<br>✅ Это оригинальный товар!";
+        } else {
+          resultDiv.innerHTML += "<br>❌ Код недействителен!";
+        }
+      });
+
+      // Запуск сканера
+      startBtn.addEventListener('click', function() {
+        Instascan.Camera.getCameras().then(function(cameras) {
+          if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+          } else {
+            resultDiv.textContent = "Камера не найдена!";
+          }
+        });
+      });
+
+      // Остановка сканера
+      stopBtn.addEventListener('click', function() {
+        scanner.stop();
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        resultDiv.textContent = "Сканер остановлен";
+      });
+    });
+  </script>
+</body>
+</html>
+  <script src="script.js"></script>
+</body>
+</html>
+ <footer>
+    <p>© 2024 ВашБренд. Все права защищены.</p>
+  </footer>
